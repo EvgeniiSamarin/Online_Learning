@@ -1,10 +1,12 @@
 package main.java;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 
 import java.io.*;
 
-public class StudentJsonDecorator {
+public class StudentJsonDecorator extends OutputStream {
     private DataOutputStream outputStream;
 
     public void write(int b) throws IOException {
@@ -79,13 +81,19 @@ public class StudentJsonDecorator {
         this.outputStream = new DataOutputStream( new BufferedOutputStream(outputStream));
     }
 
-    public void writeStudent(Student student) {
-        try {
-            Gson gson = new Gson();
-            String JSON = gson.toJson(student);
-            outputStream.writeUTF(JSON);
-        } catch (IOException e) {
-            e.printStackTrace();
+    public void writeStudent(Student student) throws IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        /*JsonObject result = new JsonObject();
+        result.addProperty("name", student.getName());
+        result.addProperty("group", student.getGroup());
+        result.addProperty("date", student.getDate());
+        result.addProperty("sex", student.getSex());
+        String JSON = gson.toJson(result);
+        */
+        String json = gson.toJson(student);
+        outputStream.writeUTF(json);
+
+
         }
-    }
+
 }
