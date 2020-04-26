@@ -81,8 +81,12 @@ public class StudentYamlDecorator extends OutputStream {
         outputStream.close();
     }
     public void writeStudentYaml(Student student) throws IOException {
-        ObjectMapper om = new ObjectMapper(new YAMLFactory());
-        om.writeValue((OutputStream) outputStream, student);
+        try {
+            ObjectMapper om = new ObjectMapper(new YAMLFactory());
+            om.writeValue((OutputStream) outputStream, student);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public static void main(String[] args) throws IOException {
